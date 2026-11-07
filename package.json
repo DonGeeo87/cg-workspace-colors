@@ -1,0 +1,54 @@
+{
+  "name": "cg-workspace-colors",
+  "version": "0.1.0",
+  "description": "Colores por workspace e indicadores de sesiones activas, pendientes y nuevas en el sidebar de DSH.",
+  "type": "module",
+  "main": "lib/index.js",
+  "exports": {
+    ".": {
+      "default": "./lib/index.js"
+    },
+    "./client": {
+      "default": "./lib/client.js"
+    },
+    "./package.json": "./package.json",
+    "./locale/*.json": "./locale/*.json",
+    "./icon": "./icon.svg"
+  },
+  "files": [
+    "lib",
+    "test",
+    "cordis.patch.yml",
+    "locale",
+    "icon.svg",
+    "README.md"
+  ],
+  "keywords": [
+    "dsh",
+    "deepseek-harness",
+    "bundle",
+    "plugin",
+    "workspaces"
+  ],
+  "license": "UNLICENSED",
+  "author": "Codigo Guerrero Dev",
+  "repository": {
+    "type": "git",
+    "url": "http://192.168.1.50:3102/giorgio/cg-workspace-colors.git"
+  },
+  "publishConfig": {
+    "registry": "http://192.168.1.50:3102/api/packages/giorgio/npm/"
+  },
+  "engines": {
+    "dsh": ">=0.2.1-rc.2"
+  },
+  "dsh": {
+    "bundle": {
+      "patch": "./cordis.patch.yml"
+    },
+    "client": {
+      "inject": [],
+      "platform": "web"
+    }
+  }
+}

@@ -1,0 +1,6 @@
+{
+  "meta": {
+    "title": "Workspace Colors and Indicators",
+    "description": "Colors each workspace in the sidebar and shows how many of its sessions are running, waiting for you, or unread. Configure it in Settings > Workspaces."
+  }
+}

@@ -1,0 +1,6 @@
+{
+  "meta": {
+    "title": "Colores e indicadores de workspace",
+    "description": "Pinta cada workspace del sidebar y muestra cuantas sesiones tiene activas, esperando respuesta o sin leer. Se configura en Ajustes > Workspaces."
+  }
+}

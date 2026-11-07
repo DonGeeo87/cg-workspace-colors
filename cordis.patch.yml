@@ -1,0 +1,14 @@
+# Bundle cg-workspace-colors: color por workspace + indicadores en el sidebar.
+#
+# Una fila en la raiz del perfil. La mitad Host no hace nada: el color y los
+# indicadores son preferencias de interfaz y viven en el navegador (localStorage).
+#
+# Por que no reemplaza `sidebar.workspaces`: ese slot es `single` y su ocupante
+# shipped es el browser completo (busqueda, grupos, drag, dialogos). Reemplazarlo
+# es reimplementarlo. En cambio este bundle pinta con una hoja de estilos propia
+# sobre `[data-row-key="workspace:<id>"]`, que es el atributo con el que
+# ui-workspace identifica cada fila. Si esa marca cambia en una version futura,
+# el plugin deja de pintar sin romper el sidebar.
+- insert:
+    - id: cg-workspace-colors
+      name: cg-workspace-colors

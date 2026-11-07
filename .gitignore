@@ -1,0 +1,7 @@
+node_modules/
+# Salidas del banco de pruebas (se regeneran con test/banco.mjs)
+test/_banco/
+test/_capturas/
+test/banco.json
+# Tarballs de paquete
+*.tgz
