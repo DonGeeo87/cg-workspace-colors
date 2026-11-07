@@ -87,17 +87,29 @@ la proxima carga; si el navegador ya tenia el modulo viejo, reiniciar DSH.
 
 | Donde | Identificador |
 |---|---|
-| Registro npm de Forgejo (AIO) | `cg-workspace-colors@0.1.0` — `http://192.168.1.50:3102/api/packages/giorgio/npm/` |
-| Fuente | `http://192.168.1.50:3102/giorgio/cg-workspace-colors` (privado, tag `v0.1.0`) |
+| npm publico | `cg-workspace-colors` — `https://www.npmjs.com/package/cg-workspace-colors` |
+| GitHub | `https://github.com/DonGeeo87/cg-workspace-colors` (publico, MIT) |
+| Registro npm de Forgejo (AIO) | `http://192.168.1.50:3102/api/packages/giorgio/npm/` |
+| Fuente interna | `http://192.168.1.50:3102/giorgio/cg-workspace-colors` (privado) |
 
-En otra maquina se instala desde el registro, sin tocar su `.npmrc`:
+Se publica en los tres lados con la misma version: GitHub es la cara publica, npmjs
+la distribucion y el registro de Forgejo queda como copia interna.
 
 ```powershell
-plugin_manager action=install_bundle target=cg-workspace-colors@0.1.0 registry=http://192.168.1.50:3102/api/packages/giorgio/npm/
+# GitHub
+git push github main --tags
+# npm publico
+npm publish --access public
+# registro interno de Forgejo
+npm publish --registry http://192.168.1.50:3102/api/packages/giorgio/npm/ --//192.168.1.50:3102/api/packages/giorgio/npm/:_authToken=$env:FORGEJO_TOKEN
 ```
 
-La lectura del registro es anonima dentro de la LAN/tailnet; publicar requiere un
-token de Forgejo con `write:package`.
+En otra maquina se instala desde cualquiera de los dos registros:
+
+```powershell
+plugin_manager action=install_bundle target=cg-workspace-colors
+plugin_manager action=install_bundle target=cg-workspace-colors registry=http://192.168.1.50:3102/api/packages/giorgio/npm/
+```
 
 Publicar una version nueva (la compuerta tiene que pasar antes):
 
@@ -106,11 +118,12 @@ node test\compuerta.mjs
 # subir "version" en package.json y comitear
 git tag -a vX.Y.Z -m "cg-workspace-colors X.Y.Z"
 git push origin main --tags
-$env:FORGEJO_TOKEN = "<token con write:package>"
-npm publish --registry http://192.168.1.50:3102/api/packages/giorgio/npm/ --//192.168.1.50:3102/api/packages/giorgio/npm/:_authToken=$env:FORGEJO_TOKEN
+git push github main --tags
+npm publish --access public
 ```
 
-El token no se guarda en el repo: va por variable de entorno en cada publicacion.
+Ningun token se guarda en el repo: en la maquina estan en `gh` (keyring) y en el
+`.npmrc` del usuario, y para Forgejo van por variable de entorno (`FORGEJO_TOKEN`).
 
 ## Reparto de responsabilidades
 
