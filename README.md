@@ -60,10 +60,10 @@ conversacion; se arregla actualizando el selector.
 
 ## Verificacion
 
-Una compuerta, sin mirar imagenes:
+Una compuerta, sin mirar imagenes (desde la raiz del paquete):
 
 ```powershell
-node _dsh-bundles\cg-workspace-colors\test\compuerta.mjs
+node test\\compuerta.mjs
 ```
 
 Carga el `lib/client.js` real con un loader y un React minimos, le pide al
@@ -71,50 +71,33 @@ componente de la hoja de estilos el CSS que produciria, lo aplica a un DOM con
 la misma estructura que genera ui-workspace (`wnFoaW_projectRow`,
 `data-row-key`) y comprueba con Chrome que: la barra de acento y el icono toman
 el color, el fondo usa `color-mix`, el badge sale compacto y en tono amber, el
-titulo trunca en vez de desbordar, y una fila sin color no recibe nada.
+titulo trunca en vez de desbordar, y una fila sin color no recibe nada. Necesita
+`ver.mjs` de la skill `cg-capturas`; sin eso, `test\\banco.mjs` igual valida el
+render de la pagina de Ajustes.
 
 ## Instalar / quitar
 
 ```powershell
-plugin_manager action=install_bundle target=C:\Users\ginte\Documents\deepseek-harness\default-workspace\_dsh-bundles\cg-workspace-colors
+plugin_manager action=install_bundle target=cg-workspace-colors
 plugin_manager action=remove_bundle target=cg-workspace-colors
 ```
 
-Es un paquete `link:`: editar `lib/client.js` y volver a instalar alcanza para
-la proxima carga; si el navegador ya tenia el modulo viejo, reiniciar DSH.
+Para trabajar sobre el codigo, instalar el directorio del bundle como paquete
+`link:` (`target=<ruta al directorio>`): editar `lib/client.js` y reinstalar
+alcanza para la proxima carga; si el navegador ya tenia el modulo viejo,
+reiniciar DSH.
 
 ## Publicacion
 
 | Donde | Identificador |
 |---|---|
-| npm publico | `cg-workspace-colors` — `https://www.npmjs.com/package/cg-workspace-colors` |
-| GitHub | `https://github.com/DonGeeo87/cg-workspace-colors` (publico, MIT) |
-| Registro npm de Forgejo (AIO) | `http://192.168.1.50:3102/api/packages/giorgio/npm/` |
-| Fuente interna | `http://192.168.1.50:3102/giorgio/cg-workspace-colors` (privado) |
-
-Se publica en los tres lados con la misma version: GitHub es la cara publica, npmjs
-la distribucion y el registro de Forgejo queda como copia interna.
-
-```powershell
-# GitHub
-git push github main --tags
-# npm publico
-npm publish --access public
-# registro interno de Forgejo
-npm publish --registry http://192.168.1.50:3102/api/packages/giorgio/npm/ --//192.168.1.50:3102/api/packages/giorgio/npm/:_authToken=$env:FORGEJO_TOKEN
-```
-
-En otra maquina se instala desde cualquiera de los dos registros:
-
-```powershell
-plugin_manager action=install_bundle target=cg-workspace-colors
-plugin_manager action=install_bundle target=cg-workspace-colors registry=http://192.168.1.50:3102/api/packages/giorgio/npm/
-```
+| npm publico | `cg-workspace-colors` — <https://www.npmjs.com/package/cg-workspace-colors> |
+| GitHub | <https://github.com/DonGeeo87/cg-workspace-colors> (publico, MIT) |
 
 Publicar una version nueva (la compuerta tiene que pasar antes):
 
 ```powershell
-node test\compuerta.mjs
+node test\\compuerta.mjs
 # subir "version" en package.json y comitear
 git tag -a vX.Y.Z -m "cg-workspace-colors X.Y.Z"
 git push origin main --tags
@@ -122,8 +105,9 @@ git push github main --tags
 npm publish --access public
 ```
 
-Ningun token se guarda en el repo: en la maquina estan en `gh` (keyring) y en el
-`.npmrc` del usuario, y para Forgejo van por variable de entorno (`FORGEJO_TOKEN`).
+Tambien se publica una copia en un registro npm interno de la casa. Ese comando,
+su URL y su token no se documentan en este archivo a proposito: este README es
+publico y no lleva direcciones internas. Viven fuera del repositorio.
 
 ## Reparto de responsabilidades
 

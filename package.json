@@ -1,6 +1,6 @@
 {
   "name": "cg-workspace-colors",
-  "version": "0.1.1",
+  "version": "0.1.2",
   "description": "Colores por workspace e indicadores de sesiones activas, pendientes y nuevas en el sidebar de DSH.",
   "type": "module",
   "main": "lib/index.js",
